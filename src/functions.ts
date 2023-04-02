@@ -5,10 +5,15 @@ export class UserInfo {
 }
 
 export enum Diseases {
-    Diabetes,
-    Hypertension,
-    Vaginal_Infection,
-    Other
+    Diabetes = "Diabetes",
+    Hypertension = "Hypertension",
+    Vaginal_Infection = "Vaginal infection",
+}
+
+export const diseaseToMachineMap = {
+    "Diabetes": "1",
+    "Hypertension": "2",
+    "Vaginal infection": "3"
 }
 
 export function getUserResult(id): UserInfo {
@@ -16,5 +21,18 @@ export function getUserResult(id): UserInfo {
         name: "Clueless Bopha",
         currentDiseases: [],
         detected: [Diseases.Diabetes, Diseases.Hypertension]
+    }
+}
+export function t1(eng: string) {
+    switch (eng.toLowerCase()) {
+        case "diabetes":
+            return "ជំងឺទឹកនោមផ្អែម"
+            break
+        case "hypertension":
+            return "ជំងឺលើសឈាម"
+        case "vaginal infection":
+            return "ជំងឺហូរទឹករំអិលទ្វារមាស"
+        default:
+            return eng
     }
 }
