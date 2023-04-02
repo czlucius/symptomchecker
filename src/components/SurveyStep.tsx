@@ -2,8 +2,7 @@ import {ReactElement, useState} from "react";
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 enum SurveyType {
-    TrueFalse,
-    MultipleChoice,
+    MultiChoice,
     OpenEnded
 }
 
@@ -19,7 +18,7 @@ const SurveyStep = ({title, subtitle, type, options, state, onChgState}) => {
 const SurveyContents = ({type, options, state, onChgState}): ReactElement => {
 
     switch (type) {
-        case SurveyType.TrueFalse:
+        case SurveyType.MultiChoice:
 
 
             return <div style={{marginTop: "auto", marginBottom: "auto", marginLeft: 20}}>
@@ -30,6 +29,11 @@ const SurveyContents = ({type, options, state, onChgState}): ReactElement => {
                     })}
                 </ToggleButtonGroup>
             </div>
+
+            break
+        default:
+            console.error("Undefined route!")
+            alert("undefined route!")
     }
 }
 
