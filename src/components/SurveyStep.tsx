@@ -8,7 +8,7 @@ enum SurveyType {
 
 const SurveyStep = ({title, subtitle, type, options, state, onChgState}) => {
 
-    return <div style={{display: "flex", flexDirection: "row", alignSelf: "center", margin: 10}}>
+    return <div align="center" style={{display: "flex", flexDirection: "row", alignSelf: "center", margin: 10, flexWrap: "wrap"}}>
         <SurveyDesc title={title} subtitle={subtitle}/>
         <SurveyContents type={type} options={options} state={state} onChgState={onChgState}/>
     </div>
@@ -21,7 +21,7 @@ const SurveyContents = ({type, options, state, onChgState}): ReactElement => {
         case SurveyType.MultiChoice:
 
 
-            return <div style={{marginTop: "auto", marginBottom: "auto", marginLeft: 20}}>
+            return <div align="center" style={{marginTop: "auto", marginBottom: "auto", marginLeft: "auto", marginRight: "auto"}}>
                 <ToggleButtonGroup exclusive value={state} onChange={onChgState}>
                     {options.map(option => {
 

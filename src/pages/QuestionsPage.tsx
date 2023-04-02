@@ -1,14 +1,15 @@
 import {Button} from "@mui/material";
 import {SurveyStep, SurveyType} from "../components/SurveyStep";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Diseases} from "../functions";
+import {useNavigate} from "react-router-dom";
 
 const atRiskFor = []
 let states = []
 const stages = [{
     qns:
         [{
-            title: "Do you feel fatigued frequently, especially after eating?",
+            title: "Do you feel fatigued frequently, especially after eating? តើ​អ្នក​មាន​អារម្មណ៍​ថា​នឿយ​ហត់​ជា​ញឹកញាប់​ជា​ពិសេស​បន្ទាប់​ពី​បរិភោគ​អាហារ​?",
             subtitle: undefined,
             type: SurveyType.MultiChoice,
             options: ["Yes", "No"],
@@ -36,7 +37,7 @@ const stages = [{
             trigger: "Yes",
             num: 3
         }],
-    title: "Diabetes",
+    title: "Diabetes ជំងឺទឹកនោមផ្អែម",
     id: 0,
     disease: "diabetes",
     machineNo: 1,
@@ -44,7 +45,7 @@ const stages = [{
 }, {
     qns:
         [{
-            title: "What colour is your vaginal discharge?",
+            title: "What colour is your vaginal discharge? ើទឹករំអិលទ្វារមាសរបស់អ្នកមានពណ៌អ្វី?",
             subtitle: undefined,
             type: SurveyType.MultiChoice,
             options: ["Transparent", "White", "Yellow"],
@@ -72,7 +73,7 @@ const stages = [{
             trigger: "Yes",
             num: 3
         }],
-    title: "Vaginal infection",
+    title: "Vaginal infection ជំងឺហូរទឹករំអិលទ្វារមាស",
     id: 1,
     disease: "vaginal infection",
     machineNo: 2,
@@ -83,20 +84,29 @@ const stages = [{
 for (const qn of stages[0].qns) {
     states.push(qn.trigger)
 }
+
 const QuestionsPage = () => {
+
+    const [currentStage, setCurrentStage] = useState(()=>0)
+    const [currentRisk, setCurrentRisk] = useState(()=>true)
 
     // WARNING: ALL CODE IN HERE WILL REFRESH ON STATE CHANGE.
     // DO NOT PUT ANY ONE-TIME INIT CODE IN HERE!!!
 
-    const [currentStage, setCurrentStage] = useState(0)
-    const [currentRisk, setCurrentRisk] = useState(true)
+    const navigate = useNavigate()
 
     function init(a = 45) {
-        console.log("init", a)
-        states = []
+        console.log("init", a, currentStage, states)
+        // for (let i=0;i<states.length;i++){
+        //     states.pop()
+        // }
+        console.log(states, stages[currentStage].qns)
+        states.splice(0,states.length)
         for (const qn of stages[currentStage].qns) {
             states.push(qn.trigger)
         }
+        console.log(states)
+        setCurrentRisk(true)
     }
 
 
@@ -108,6 +118,7 @@ const QuestionsPage = () => {
         const currentQns = currentStateData.qns
         // const currentState = states[currentStage]
         console.log("states2", states)
+        // @ts-ignore
         for (const [index, element] of states.entries()) {
             console.log()
             const trigger = currentQns[index].trigger
@@ -122,8 +133,7 @@ const QuestionsPage = () => {
         }
         console.log("numTrig / numTotal", numTrigger, numTotal)
 
-        const atRisk = numTrigger / numTotal >= 0.75
-        return atRisk;
+        return numTrigger / numTotal >= 0.75;
     }
 
     function onBtnClick() {
@@ -132,15 +142,16 @@ const QuestionsPage = () => {
         console.log("at risk", atRisk)
         if (atRisk) {
             atRiskFor.push(currentStateData.diseaseEnum)
-            alert("at risk")
+            // alert("at risk")
         }
         if (currentStage !== stages.length - 1) {
             setCurrentStage(currentStage + 1)
-            console.log("Confirm")
             init(3)
-            // Confirm
+            console.log("state3", states)
+
         } else {
-            alert(atRiskFor)
+            // Confirm
+            navigate("/signup", {state: {atRisk: atRiskFor}})
         }
 
     }
@@ -148,12 +159,17 @@ const QuestionsPage = () => {
     // useEffect(() => {init(77)})
 
 
-    return <div style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
+    return <div align="center" style={{display: "flex", justifyContent: "center", flexDirection: "column", maxWidth: 900, marginLeft: "auto", marginRight: "auto"}}>
+
         <h2 style={{marginLeft: "auto", marginRight: "auto"}}>{stages[currentStage].title}</h2>
 
         {stages[currentStage].qns.map(qn => {
-            const [localState, localSetState] = useState(qn.trigger)
-            console.log("e2fw", states.length, stages[currentStage].qns.length)
+            const [localState, localSetState] = useState(Array.isArray(qn.trigger) ? "White" : qn.trigger)
+            console.log("trigger", localState, currentStage, states)
+
+            // if (Array.isArray(localState)) {
+            //     localSetState(localState[0])
+            // }
 
 
             function onChgState(event, newState) {
@@ -186,8 +202,8 @@ const QuestionsPage = () => {
         {/*    return <SurveyStep {...item} state={state} onChgState={onChgState}/>*/}
 
         {/*})}*/}
-        <h4 style={{marginLeft: "auto", marginRight: "auto"}}>You are {currentRisk ? "" : "not"} at risk
-            for {stages[currentStage].disease}.</h4>
+        {/*<h4 style={{marginLeft: "auto", marginRight: "auto"}}>You are {currentRisk ? "" : "not"} at risk*/}
+        {/*    for {stages[currentStage].disease}.</h4>*/}
 
         <Button variant="contained" style={{marginLeft: "auto", marginRight: "auto"}}
                 onClick={() => {
