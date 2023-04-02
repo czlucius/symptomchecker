@@ -2,47 +2,14 @@ import {useState} from 'react'
 import './App.css'
 import {AppBar, Button, Toolbar} from "@mui/material";
 import {SurveyDesc, SurveyStep, SurveyType} from "./components/SurveyStep";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Startpage from "./pages/Startpage";
+import QuestionsPage from "./pages/QuestionsPage";
+
+
+
 
 function App() {
-    const states = []
-    const items = [{
-        title: "Diabetes",
-        subtitle: "Do you feel fatigued frequently, especially after eating?",
-        type: SurveyType.TrueFalse,
-        options: ["Yes", "No"]
-    }, {
-        title: undefined,
-        subtitle: "Have you been losing weight unexpectedly recently?",
-        type: SurveyType.TrueFalse,
-        options: ["Yes", "No"]
-    }, {
-        title: undefined,
-        subtitle: "Are you constantly hungry and thirsty?",
-        type: SurveyType.TrueFalse,
-        options: ["Yes", "No"]
-    }, {
-        title: undefined,
-        subtitle: "Do you constantly feel numbness or tingling in your feet/hands?",
-        type: SurveyType.TrueFalse,
-        options: ["Yes", "No"]
-    }]
-
-    function onBtnClick() {
-        let numYes = 0
-        let numTotal = 0
-        for (const [state, setState] of states) {
-            if (state === "Yes") {
-                numYes++
-            }
-            numTotal++
-        }
-
-
-        if (numYes/numTotal >= 0.75) {
-            alert("You are at risk of diabetes!\nPlease visit Capsule Machine 1 to get tips and supplements on diabetes.")
-        }
-
-    }
 
 
 
@@ -57,22 +24,16 @@ function App() {
             }}>
                 <h3 style={{margin: 16}}>Symptom Checker</h3>
             </AppBar>
-            <div align="center" style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
-                {items.map(item => {
 
-                    const [state, setState] = useState(item.options[0])
-                    states.push([state, setState])
-                    function onChgState(event, newState) {
-                        if (newState !== null) {
-                            setState(newState)
-                        }
-                    }
-                    return <SurveyStep {...item} state={state} onChgState={onChgState}/>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Startpage/>}/>
+                    <Route path="/questions" element={<QuestionsPage/>}/>
+                    {/*<Route path="/users/:id" element={<UserResult/>}/>*/}
 
-                })}
+                </Routes>
+            </BrowserRouter>
 
-                <Button variant="contained" style={{marginLeft: "auto", marginRight: "auto"}} onClick={onBtnClick}>Confirm</Button>
-            </div>
 
         </div>
     )
