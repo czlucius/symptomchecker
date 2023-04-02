@@ -5,12 +5,14 @@ import {SurveyDesc, SurveyStep, SurveyType} from "./components/SurveyStep";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Startpage from "./pages/Startpage";
 import QuestionsPage from "./pages/QuestionsPage";
+import SignupPage from "./pages/SignupPage";
 
 
 
 
 function App() {
-
+const stage = useState(0)
+    const risk = useState(true)
 
 
     return (
@@ -22,14 +24,15 @@ function App() {
                 flexDirection: "row",
                 width: "auto"
             }}>
-                <h3 style={{margin: 16}}>Symptom Checker</h3>
+                <h3 style={{margin: 16}}>Health machine ម៉ាស៊ីនសុខភាព</h3>
             </AppBar>
 
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Startpage/>}/>
-                    <Route path="/questions" element={<QuestionsPage/>}/>
+                    <Route path="/questions" element={<QuestionsPage stage={stage} risk={risk} />}/>
                     {/*<Route path="/users/:id" element={<UserResult/>}/>*/}
+                    <Route path="/signup" element={<SignupPage/>}/>
 
                 </Routes>
             </BrowserRouter>
