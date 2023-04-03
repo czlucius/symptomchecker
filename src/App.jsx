@@ -30,7 +30,9 @@ const stage = useState(0)
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Startpage/>}/>
-                    <Route path="/questions" element={<QuestionsPage stage={stage} risk={risk} />}/>
+                    <Route path="/questions" Component={()=><QuestionsPage/>}>
+
+                    </Route>
                     {/*<Route path="/users/:id" element={<UserResult/>}/>*/}
                     <Route path="/signup" element={<SignupPage/>}/>
 

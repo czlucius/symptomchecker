@@ -29,6 +29,7 @@ const Startpage = () => {
                     open={showDialog}
                     // onClose={handleClose}
                     modal={false}
+                    fullScreen
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
 

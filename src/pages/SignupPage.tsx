@@ -12,8 +12,9 @@ import {
 import {useState} from "react";
 import useFieldState from "../utils/useFieldState";
 import {useLocation} from "react-router-dom";
-import {diseaseToMachineMap} from "../functions";
+import {diseaseToMachineMap, t1} from "../functions";
 import QRCode from "react-qr-code";
+//import {, t1} from "../functions";
 
 enum AgeRange {
     ZERO_TO_SEVENTEEN = "0-17",
@@ -48,7 +49,7 @@ const SignupPage = () => {
     const submitForm: React.FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault()
 
-        // console.log(event.target[4].outerHTML)
+        // console.log(event.target[4.js].outerHTML)
         seta(event.target[2].value)
         for (const elem of (event.target as any)) {
             console.log(elem.id)
@@ -81,6 +82,7 @@ const SignupPage = () => {
                 open={showDialog}
                 // onClose={handleClose}
                 modal={false}
+                fullScreen
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
 
@@ -92,16 +94,22 @@ const SignupPage = () => {
                     {
                         atRiskFor.map(disease => {
                             return <Card style={{margin:10}}>
-                                <CardContent>
-                                    You appear to be at risk of {disease}.
-                                    Proceed to capsule machine {diseaseToMachineMap[disease]}
-                                </CardContent>
-                            </Card>
+                                    <CardContent>
+                                        You are at risk of {disease}.
+                                        Proceed to capsule machine {diseaseToMachineMap[disease]}.
+                                        <br/>
+                                        អ្នកមានហានិភ័យនៃ{t1(disease)} ។
+                                        បន្តទៅម៉ាស៊ីនកន្សោម{diseaseToMachineMap[disease]} ។
+
+                                    </CardContent>
+                                </Card>
                         })
                     }
 
                     Hi {n}! Welcome to SLA health machine center!<br/>
                     For the machines and future visits, please take a picture of this QR code for verification.<br/>
+                    ជម្រាបសួរ, {n}! សូមស្វាគមន៍មកកាន់មជ្ឈមណ្ឌលម៉ាស៊ីនសុខភាព SLA!
+សម្រាប់ម៉ាស៊ីន និងការទស្សនានាពេលខាងមុខ សូមថតរូបលេខកូដ QR នេះសម្រាប់ការផ្ទៀងផ្ទាត់។<br/>
                     <QRCode value="387e7b54-44fc-418b-b878-7dd60ee6c8c9" style={{marginLeft: "auto", marginRight: "auto"}}/>
 
                 </DialogContent>
@@ -115,19 +123,19 @@ const SignupPage = () => {
                     marginLeft: "auto",
                     marginRight: "auto"
                 }}>
-                    <h2>Signup</h2>
-                    <TextField id="name-field" label="Name" variant="outlined" value={name} onChange={onNameChange}
+                    <h2>Signup ចុះ​ឈ្មោះ</h2>
+                    <TextField id="name-field" label="Name ឈ្មោះ" variant="outlined" value={name} onChange={onNameChange}
                                style={{margin: 10}} required {...(name ? {} : {
                         error: true,
-                        helperText: "Please enter your name"
+                        helperText: "Please enter your name. សូម​បញ្ចូល​ឈ្មោះ​របស់​អ្នក។"
                     })} autoFocus/>
                     <FormControl style={{margin: 10}} required id="select-age-container">
-                        <InputLabel>Age</InputLabel>
+                        <InputLabel>Age អាយុ</InputLabel>
                         <Select
                             labelId="select-age-label-id"
                             id="select-age"
                             value={ageRange}
-                            label="Age"
+                            label="Age អាយុ "
                             onChange={(event) => setAgeRange(event.target.value as AgeRange)}
                         >
                             {Object.values(AgeRange).map(ageRange => {
@@ -135,17 +143,17 @@ const SignupPage = () => {
                             })}
                         </Select>
                     </FormControl>
-                    <TextField id="occupation-field" label="Occupation" variant="outlined" value={occupation}
+                    <TextField id="occupation-field" label="Occupation មុខរបរ" variant="outlined" value={occupation}
                                onChange={onOccupationChange} style={{margin: 10}}
                                required {...(occupation ? {} : {
                         error: true,
-                        helperText: "Please enter your occupation"
+                        helperText: "Please enter your occupation. សូមបញ្ចូលមុខរបររបស់អ្នក។"
                     })}/>
                     <TextField id="nssf-field" label="NSSF ID" variant="outlined" value={nssfId}
                                onChange={onNssfIdChange} style={{margin: 10}}/>
 
 
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Submit ដាក់ស្នើ</Button>
 
 
                 </div>
