@@ -41,6 +41,7 @@ const SignupPage = () => {
     let [a, seta] = useState("")
     let [o, seto] = useState("")
     let [nssf, setnssf] = useState("")
+    const id = crypto.randomUUID()
 
     const {state} = useLocation();
     const {atRisk} = state
@@ -72,6 +73,8 @@ const SignupPage = () => {
 
 
     }
+    
+    window.localStorage.setItem(id, JSON.stringify(atRiskFor))
     const handleClose = () => {
         setShowDialog(false)
     }
@@ -110,7 +113,7 @@ const SignupPage = () => {
                     For the machines and future visits, please take a picture of this QR code for verification.<br/>
                     ជម្រាបសួរ,! សូមស្វាគមន៍មកកាន់មជ្ឈមណ្ឌលម៉ាស៊ីនសុខភាព SLA!
 សម្រាប់ម៉ាស៊ីន និងការទស្សនានាពេលខាងមុខ សូមថតរូបលេខកូដ QR នេះសម្រាប់ការផ្ទៀងផ្ទាត់។<br/>
-                    <QRCode value="387e7b54-44fc-418b-b878-7dd60ee6c8c9" style={{marginLeft: "auto", marginRight: "auto"}}/>
+                    <QRCode value={id} style={{marginLeft: "auto", marginRight: "auto"}}/>
 
                 </DialogContent>
             </Dialog>

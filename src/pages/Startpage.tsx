@@ -19,6 +19,8 @@ const Startpage = () => {
     const [registered, setRegistered] = useState<boolean>(undefined)
     const [showDialog, setShowDialog] = useState(false)
     const navigate = useNavigate()
+    
+    const [id, setId] = useState(null)
 
 
     switch (registered) {
@@ -38,11 +40,8 @@ const Startpage = () => {
                         {"Welcome back! ស្វា​គម​ន៏​ការ​ត្រ​លប់​មក​វិញ!"}
                     </DialogTitle>
                     <DialogContent>
-                        Name ឈ្មោះ: Clueless Bopha <br/>
-                        Age range ជួរអាយុ: 18-35<br/>
-                        NSSF/low-income NSSF/ចំណូលទាប: Yes បាទ
                         {
-                            ["Diabetes", "Hypertension"].map(disease => {
+                            JSON.parse(window.localStorage.getItem(id) ?? "[]").map(disease => {
                                 return <Card style={{margin:10}}>
                                     <CardContent>
                                         You are at risk of {disease}.
@@ -67,6 +66,7 @@ const Startpage = () => {
                     onDecode={(result) => {
                         console.log(result)
                         setShowDialog(true)
+                        setId(result)
 
                     }}
                     onError={(error) => console.log(error?.message)}
