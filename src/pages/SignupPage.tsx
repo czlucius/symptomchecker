@@ -36,7 +36,7 @@ const SignupPage = () => {
     const [ageRange, setAgeRange] = useState<AgeRange>(AgeRange.EIGHTEEN_TO_THIRTY_FIVE)
     const [occupation, setOccupation, onOccupationChange] = useFieldState(null)
     const [nssfId, setNssfId, onNssfIdChange] = useFieldState(null)
-    const [showDialog, setShowDialog] = useState(false)
+    const [showDialog, setShowDialog] = useState(true)
     let [n, setn] = useState("")
     let [a, seta] = useState("")
     let [o, seto] = useState("")
@@ -106,9 +106,9 @@ const SignupPage = () => {
                         })
                     }
 
-                    Hi {n}! Welcome to SLA health machine center!<br/>
+                    Hi! Welcome to SLA health machine center!<br/>
                     For the machines and future visits, please take a picture of this QR code for verification.<br/>
-                    ជម្រាបសួរ, {n}! សូមស្វាគមន៍មកកាន់មជ្ឈមណ្ឌលម៉ាស៊ីនសុខភាព SLA!
+                    ជម្រាបសួរ,! សូមស្វាគមន៍មកកាន់មជ្ឈមណ្ឌលម៉ាស៊ីនសុខភាព SLA!
 សម្រាប់ម៉ាស៊ីន និងការទស្សនានាពេលខាងមុខ សូមថតរូបលេខកូដ QR នេះសម្រាប់ការផ្ទៀងផ្ទាត់។<br/>
                     <QRCode value="387e7b54-44fc-418b-b878-7dd60ee6c8c9" style={{marginLeft: "auto", marginRight: "auto"}}/>
 

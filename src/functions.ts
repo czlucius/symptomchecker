@@ -12,8 +12,8 @@ export enum Diseases {
 
 export const diseaseToMachineMap = {
     "Diabetes": "1",
-    "Hypertension": "2",
-    "Vaginal infection": "3"
+    "Hypertension": "1",
+    "Vaginal infection": "1"
 }
 
 export function getUserResult(id): UserInfo {
