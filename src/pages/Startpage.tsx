@@ -15,11 +15,13 @@ import {useNavigate} from "react-router-dom";
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import {diseaseToMachineMap, t1} from "../functions";
 import QRCode from "react-qr-code";
+import {useTranslation} from "react-i18next";
 const Startpage = () => {
     const [registered, setRegistered] = useState<boolean>(undefined)
     const [showDialog, setShowDialog] = useState(false)
     const navigate = useNavigate()
-    
+    const {t, i18n} = useTranslation()
+
     const [id, setId] = useState(null)
 
 
@@ -30,35 +32,36 @@ const Startpage = () => {
                 <Dialog
                     open={showDialog}
                     // onClose={handleClose}
-                    modal={false}
                     fullScreen
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
 
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {"Welcome back! ស្វា​គម​ន៏​ការ​ត្រ​លប់​មក​វិញ!"}
+                        {t("Welcome back!")}
                     </DialogTitle>
                     <DialogContent>
                         {
-                            JSON.parse(window.localStorage.getItem(id) ?? "[]").map(disease => {
+                            JSON.parse(window.localStorage.getItem(id) ?? "[\"Diabetes\",\"Vaginal infection\",\"Hypertension\"]").map(disease => {
                                 return <Card style={{margin:10}}>
                                     <CardContent>
-                                        You are at risk of {disease}.
-                                        Proceed to capsule machine {diseaseToMachineMap[disease]}.
-                                        <br/>
-                                        អ្នកមានហានិភ័យនៃ{t1(disease)} ។
-                                        បន្តទៅម៉ាស៊ីនកន្សោម{diseaseToMachineMap[disease]} ។
+                                        {i18n.language === "en" ? `You are at risk of ${disease}.
+                                        Proceed to capsule machine 1.`
+                                        :
+                                        `អ្នកមានហានិភ័យនៃ${t1(disease)} ។
+                                        បន្តទៅម៉ាស៊ីនកន្សោម1 ។`}
 
                                     </CardContent>
                                 </Card>
                             })
                         }
+                        <img src="/tokens.png"/>
+                        <h2>{t("Please collect your token for capsule machine.")}</h2>
 
 
                     </DialogContent>
                 </Dialog>
-                <h1>User login ចូល</h1>
+                <h1>{t("User login")}</h1>
                 <div style={{height: 500}}>
                 <QrScanner
                     containerStyle={{maxWidth: 400}}
@@ -71,6 +74,7 @@ const Startpage = () => {
                     }}
                     onError={(error) => console.log(error?.message)}
                 />
+                    <Button onClick={() => setRegistered(undefined)}>{t("Go to homepage")}</Button>
                 </div>
             </div>
 
@@ -79,7 +83,7 @@ const Startpage = () => {
 
             // @ts-ignore
             return <div align="center">
-                <h1>Have you used the machines before?<br/>តើអ្នកធ្លាប់ប្រើម៉ាស៊ីនដែរឬទេ?</h1>
+                <h1>{t("Have you used the machines before?")}</h1>
                 <ButtonGroup>
                     <Button color="success" onClick={() => {
                         // console.log("a");

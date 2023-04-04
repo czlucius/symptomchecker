@@ -3,134 +3,165 @@ import {SurveyStep, SurveyType} from "../components/SurveyStep";
 import {useEffect, useState} from "react";
 import {Diseases} from "../functions";
 import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const atRiskFor = []
-const  states = []
-const stages = [{
-    qns:
-        [{
-            title: "Do you feel fatigued frequently, especially after eating? តើ​អ្នក​មាន​អារម្មណ៍​ថា​នឿយ​ហត់​ជា​ញឹកញាប់​ជា​ពិសេស​បន្ទាប់​ពី​បរិភោគ​អាហារ​?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 0
-        }, {
-            title: "Have you been losing weight unexpectedly recently? តើអ្នកបានស្រកទម្ងន់ដោយមិនបានរំពឹងទុកថ្មីៗនេះទេ?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 1
-        }, {
-            title: "Are you constantly hungry and thirsty? តើអ្នកឃ្លាន និងស្រេកទឹកឥតឈប់ឈរមែនទេ?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 2
-        }, {
-            title: "Do you constantly feel numbness or tingling in your feet/hands? តើ​អ្នក​មាន​អារម្មណ៍​ស្ពឹក ឬ​រមួល​ជើង​ជា​និច្ច?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 3
-        }],
-    title: "Diabetes ជំងឺទឹកនោមផ្អែម",
-    id: 0,
-    disease: "diabetes",
-    machineNo: 1,
-    diseaseEnum: Diseases.Diabetes
-}, {
-    qns:
-        [{
-            title: "What colour is your vaginal discharge? ើទឹករំអិលទ្វារមាសរបស់អ្នកមានពណ៌អ្វី?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Transparent", "White", "Yellow"],
-            trigger: ["White", "Yellow"],
-            num: 0
-        }, {
-            title: "Is your vaginal discharge smelly/has a bad odour? តើទឹករំអិលទ្វារមាសរបស់អ្នកមានក្លិន ឬមានក្លិនមិនល្អមែនទេ?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 1
-        }, {
-            title: "Do you feel pain in your tummy/lower abdomen? តើ​អ្នក​មាន​អារម្មណ៍​ថា​ឈឺ​ក្នុង​ពោះ​ឬ​ពោះ​របស់​អ្នក​ទេ?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 2
-        }, {
-            title: "Does your lower abdomen itch frequently? តើពោះខាងក្រោមរបស់អ្នករមាស់ញឹកញាប់ទេ?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 3
-        }],
-    title: "Vaginal infection ជំងឺហូរទឹករំអិលទ្វារមាស",
-    id: 1,
-    disease: "vaginal infection",
-    machineNo: 2,
-    diseaseEnum: Diseases.Vaginal_Infection
-},{
-    qns:
-        [{
-            title: "Do you smoke often? តើអ្នកជក់បារីញឹកញាប់ទេ?",
-            subtitle: "Smoking may increase your risk of hypertension. ការជក់បារីអាចបង្កើនហានិភ័យនៃជំងឺលើសឈាម។",
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 0
-        }, {
-            title: "What is your BMI? តើ BMI របស់អ្នកគឺជាអ្វី?",
-            subtitle: "A higher BMI increases risk of hypertension. BMI ខ្ពស់បង្កើនហានិភ័យនៃជំងឺលើសឈាម។",
-            type: SurveyType.MultiChoice,
-            options: ["<18.5", "18.5-24.9", ">25"],
-            trigger: ">25",
-            num: 1
-        }, {
-            title: "Do your parents/siblings have high blood pressure? តើឪពុកម្តាយ/បងប្អូនបង្កើតរបស់អ្នកមានជំងឺលើសឈាមដែរឬទេ?",
-            subtitle: undefined,
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 2
-        }, {
-            title: "Are you constantly stressed? តើអ្នកមានភាពតានតឹងជានិច្ចទេ?",
-            subtitle: "Stress can be an indication of hypertension. ស្ត្រេសអាចជាសញ្ញានៃជំងឺលើសឈាម។",
-            type: SurveyType.MultiChoice,
-            options: ["Yes បាទ", "No ទេ"],
-            trigger: "Yes បាទ",
-            num: 2
-        }],
-    title: "Hypertension",
-    id: 2,
-    disease: "hypertension",
-    machineNo: 3,
-    diseaseEnum: Diseases.Hypertension
-}
-]
-
-for (const qn of stages[0].qns) {
-    states.push(qn.trigger)
-}
+const states = []
 
 const destructors = []
 
+
 const QuestionsPage = () => {
 
-    const [currentStage, setCurrentStage] = useState(()=>0)
-    const [currentRisk, setCurrentRisk] = useState(()=>true)
+    const [currentStage, setCurrentStage] = useState(() => 0)
+    const [currentRisk, setCurrentRisk] = useState(() => true)
+
+    const {t} = useTranslation()
+
+    const stages = [{
+        qns:
+            [{
+                title: t("Do you feel fatigued frequently, especially after eating?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 0
+            }, {
+                title: t("Have you been losing weight unexpectedly recently?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 1
+            }, {
+                title: t("Are you constantly hungry and thirsty?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 2
+            }, {
+                title: t("Do you constantly feel numbness or tingling in your feet/hands?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                visual: "https://images.squarespace-cdn.com/content/v1/6001266af8f42f6c209fa83c/1c0d98a0-a789-47fe-b96b-84187c43782e/Neuropathy+Foot+1.png",
+                num: 3
+            }, {
+                title: t("How much sugar/condensed milk do you put in your drinks?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("❌"), t("🥄"), t("🥄🥄"), t(">=🥄🥄🥄...")],
+                trigger:[t(">=🥄🥄🥄..."),t("🥄🥄")],
+                visual: "https://www.hsph.harvard.edu/nutritionsource/wp-content/uploads/sites/30/2022/04/sugar-g963832288_1280.jpg",
+                num: 3
+            }],
+        title: t("Diabetes"),
+        id: 0,
+        disease: "diabetes",
+        machineNo: 1,
+        diseaseEnum: Diseases.Diabetes
+    }, {
+        qns:
+            [{
+                title: t("What colour is your vaginal discharge?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Transparent 🪟"), t("White ⚪"), t("Yellow 🟡")],
+                trigger: [t("White ⚪"), t("Yellow 🟡")],
+                visual: "/vd.png",
+                num: 0
+            }, {
+                title: t("Is your vaginal discharge smelly/has a bad odour?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 1
+            }, {
+                title: t("Do you feel pain in your tummy/lower abdomen?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 2
+            }, {
+                title: t("Does your lower abdomen itch frequently?") ,
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 3
+            }, {
+                title: t("Do you find it difficult to urinate?") ,
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 4
+            }],
+        title: t("Vaginal infection"),
+        id: 1,
+        disease: "vaginal infection",
+        machineNo: 2,
+        diseaseEnum: Diseases.Vaginal_Infection
+    }, {
+        qns:
+            [{
+                title: t("Do you smoke?"),
+                subtitle: t("Smoking may increase your risk of hypertension."),
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                visual: "https://d31g6oeq0bzej7.cloudfront.net/Assets/image/webp/9e6976b8-7b8d-46d8-9a2e-03f53b1658f2.webp",
+                num: 0
+            }, {
+                title: t("What is your BMI?"),
+                subtitle: t("A higher BMI increases risk of hypertension."),
+                type: SurveyType.MultiChoice,
+                options: ["<18.5", "18.5-24.9", ">25"],
+                trigger: ">25",
+                num: 1
+            }, {
+                title: t("Do your parents/siblings have high blood pressure?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                num: 2
+            }, {
+                title: t("Are you constantly stressed?"),
+                subtitle: t("Stress can be an indication of hypertension."),
+                type: SurveyType.MultiChoice,
+                options: [t("Yes ✅"), t("No ❌")],
+                trigger: t("Yes ✅"),
+                visual: "https://nwkidneykids.org/tpn/c/C131/img/Stress.jpg",
+                num: 3
+            }, {
+                title: t("How much salt/MSG do you put in your food?"),
+                subtitle: undefined,
+                type: SurveyType.MultiChoice,
+                options: [t("❌"), t("🥄"), t("🥄🥄"), t(">=🥄🥄🥄...")],
+                trigger:[t(">=🥄🥄🥄..."),t("🥄🥄")],
+                visual: "/msg.jpg",
+                num: 3
+            }, ],
+        title: t("Hypertension"),
+        id: 2,
+        disease: "hypertension",
+        machineNo: 3,
+        diseaseEnum: Diseases.Hypertension
+    }
+    ]
 
 
     useEffect(() => {
         console.log("mounted")
+        for (const qn of stages[0].qns) {
+            states.push(qn.trigger)
+        }
     }, [])
 
     // WARNING: ALL CODE IN HERE WILL REFRESH ON STATE CHANGE.
@@ -145,7 +176,7 @@ const QuestionsPage = () => {
         //     states.pop()
         // }
         console.log(states, stages[cState].qns)
-        states.splice(0,states.length)
+        states.splice(0, states.length)
         for (const qn of stages[cState].qns) {
             states.push(qn.trigger)
         }
@@ -155,7 +186,6 @@ const QuestionsPage = () => {
             d()
         }
     }
-
 
 
     function getRisk(stage) {
@@ -205,16 +235,25 @@ const QuestionsPage = () => {
     }
 
     // useEffect(() => {init(77)})
-console.log("svsr")
+    console.log("svsr")
 
-    return <div align="center" style={{display: "flex", justifyContent: "center", flexDirection: "column", maxWidth: 900, marginLeft: "auto", marginRight: "auto"}}>
+    // @ts-ignore
+    return <div align="center" style={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        maxWidth: 900,
+        marginLeft: "auto",
+        marginRight: "auto"
+    }}>
 
         <h2 style={{marginLeft: "auto", marginRight: "auto"}}>{stages[currentStage].title}</h2>
 
         {stages[currentStage].qns.map(qn => {
             console.log(qn)
+
             const [localState, localSetState] = useState(Array.isArray(qn.trigger) ? "White" : qn.trigger)
-            
+
 //            localSetState(Array.isArray(qn.trigger) ? "White" : qn.trigger)
             console.log("trigger", localState, currentStage, states)
 
@@ -231,10 +270,13 @@ console.log("svsr")
                     setCurrentRisk(getRisk(currentStage))
                 }
             }
+
             destructors.push(() => {
                 try {
-                localSetState(Array.isArray(stages[currentStage+1].qns[qn.num].trigger) ? stages[currentStage+1].qns[qn.num].trigger[0]: stages[currentStage+1].qns[qn.num].trigger)
-                }catch (Err){console.log(Err)}
+                    localSetState(Array.isArray(stages[currentStage + 1].qns[qn.num].trigger) ? stages[currentStage + 1].qns[qn.num].trigger[0] : stages[currentStage + 1].qns[qn.num].trigger)
+                } catch (Err) {
+                    console.log(Err)
+                }
             })
 
             // console.log(states[currentIndex])
@@ -242,7 +284,7 @@ console.log("svsr")
             return <>
                 <SurveyStep state={localState} {...qn} onChgState={onChgState}/>
             </>
-            
+
         })}
 
         {/*{items.map(item => {*/}
@@ -265,7 +307,7 @@ console.log("svsr")
         <Button variant="contained" style={{marginLeft: "auto", marginRight: "auto"}}
                 onClick={() => {
                     onBtnClick()
-                }}>{(currentStage === stages.length - 1) ? "Confirm បញ្ជាក់" : "Next បន្ទាប់"}</Button>
+                }}>{(currentStage === stages.length - 1) ? t("Confirm") : t("Next")}</Button>
     </div>
 }
 

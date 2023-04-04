@@ -11,9 +11,10 @@ import {
 } from "@mui/material";
 import {useState} from "react";
 import useFieldState from "../utils/useFieldState";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {diseaseToMachineMap, t1} from "../functions";
 import QRCode from "react-qr-code";
+import {useTranslation} from "react-i18next";
 //import {, t1} from "../functions";
 
 enum AgeRange {
@@ -42,6 +43,8 @@ const SignupPage = () => {
     let [o, seto] = useState("")
     let [nssf, setnssf] = useState("")
     const id = crypto.randomUUID()
+    const navigate = useNavigate()
+    const {t , i18n} = useTranslation()
 
     const {state} = useLocation();
     const {atRisk} = state
@@ -73,94 +76,103 @@ const SignupPage = () => {
 
 
     }
-    
+
     window.localStorage.setItem(id, JSON.stringify(atRiskFor))
     const handleClose = () => {
         setShowDialog(false)
     }
 
+    // @ts-ignore
     return (
         <div>
             <Dialog
                 open={showDialog}
                 // onClose={handleClose}
-                modal={false}
+                // modal={false}
                 fullScreen
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
 
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Sign-up successful"}
+                    {t("Sign-up successful")}
                 </DialogTitle>
                 <DialogContent>
                     {
-                        atRiskFor.map(disease => {
+                        [...new Set(atRiskFor)].map(disease => {
                             return <Card style={{margin:10}}>
                                     <CardContent>
-                                        You are at risk of {disease}.
-                                        Proceed to capsule machine {diseaseToMachineMap[disease]}.
-                                        <br/>
-                                        អ្នកមានហានិភ័យនៃ{t1(disease)} ។
-                                        បន្តទៅម៉ាស៊ីនកន្សោម{diseaseToMachineMap[disease]} ។
+                                        {i18n.language === "en" ? `You are at risk of ${disease}.
+                                        Proceed to capsule machine 1.`:
+                                        `អ្នកមានហានិភ័យនៃ${t1(disease)} ។
+                                        បន្តទៅម៉ាស៊ីនកន្សោម${diseaseToMachineMap[disease]} ។`}
 
                                     </CardContent>
                                 </Card>
                         })
                     }
 
-                    Hi! Welcome to SLA health machine center!<br/>
-                    For the machines and future visits, please take a picture of this QR code for verification.<br/>
-                    ជម្រាបសួរ,! សូមស្វាគមន៍មកកាន់មជ្ឈមណ្ឌលម៉ាស៊ីនសុខភាព SLA!
-សម្រាប់ម៉ាស៊ីន និងការទស្សនានាពេលខាងមុខ សូមថតរូបលេខកូដ QR នេះសម្រាប់ការផ្ទៀងផ្ទាត់។<br/>
-                    <QRCode value={id} style={{marginLeft: "auto", marginRight: "auto"}}/>
-
+                    {i18n.language === "en" ? `Hi! Welcome to SLA health machine center!
+                    For the machines and future visits, please take a picture of this QR code for verification.`:
+                    `ជម្រាបសួរ,! សូមស្វាគមន៍មកកាន់មជ្ឈមណ្ឌលម៉ាស៊ីនសុខភាព SLA!
+សម្រាប់ម៉ាស៊ីន និងការទស្សនានាពេលខាងមុខ សូមថតរូបលេខកូដ QR នេះសម្រាប់ការផ្ទៀងផ្ទាត់។`}
+                    <br/>
+                    <div style={{display: "flex", flexDirection: "row"}}>
+                    <QRCode value={id} style={{marginLeft: "auto", marginRight: "auto"}} constraints={{facingMode: "user"}}/>
+                        <div>
+                            <img src="/tokens.png" style={{height: 150}}/>
+                            <h2>{t("Please collect your token for capsule machine.")}</h2>
+                        </div>
+        </div>
                 </DialogContent>
+                <DialogActions>
+                    <Button onClick={()=>{navigate("/")}}>{t("Go to homepage")}</Button>
+                </DialogActions>
             </Dialog>
-            <form onSubmit={submitForm}>
+            {/*<form onSubmit={submitForm}>*/}
 
-                <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxWidth: 600,
-                    marginLeft: "auto",
-                    marginRight: "auto"
-                }}>
-                    <h2>Signup ចុះ​ឈ្មោះ</h2>
-                    <TextField id="name-field" label="Name ឈ្មោះ" variant="outlined" value={name} onChange={onNameChange}
-                               style={{margin: 10}} required {...(name ? {} : {
-                        error: true,
-                        helperText: "Please enter your name. សូម​បញ្ចូល​ឈ្មោះ​របស់​អ្នក។"
-                    })} autoFocus/>
-                    <FormControl style={{margin: 10}} required id="select-age-container">
-                        <InputLabel>Age អាយុ</InputLabel>
-                        <Select
-                            labelId="select-age-label-id"
-                            id="select-age"
-                            value={ageRange}
-                            label="Age អាយុ "
-                            onChange={(event) => setAgeRange(event.target.value as AgeRange)}
-                        >
-                            {Object.values(AgeRange).map(ageRange => {
-                                return <MenuItem value={ageRange}>{ageRange}</MenuItem>
-                            })}
-                        </Select>
-                    </FormControl>
-                    <TextField id="occupation-field" label="Occupation មុខរបរ" variant="outlined" value={occupation}
-                               onChange={onOccupationChange} style={{margin: 10}}
-                               required {...(occupation ? {} : {
-                        error: true,
-                        helperText: "Please enter your occupation. សូមបញ្ចូលមុខរបររបស់អ្នក។"
-                    })}/>
-                    <TextField id="nssf-field" label="NSSF ID" variant="outlined" value={nssfId}
-                               onChange={onNssfIdChange} style={{margin: 10}}/>
-
-
-                    <Button type="submit">Submit ដាក់ស្នើ</Button>
+            {/*    <div style={{*/}
+            {/*        display: "flex",*/}
+            {/*        flexDirection: "column",*/}
+            {/*        maxWidth: 600,*/}
+            {/*        marginLeft: "auto",*/}
+            {/*        marginRight: "auto"*/}
+            {/*    }}>*/}
+            {/*        <h2>Signup ចុះ​ឈ្មោះ</h2>*/}
+            {/*        <TextField id="name-field" label="Name ឈ្មោះ" variant="outlined" value={name} onChange={onNameChange}*/}
+            {/*                   style={{margin: 10}} required {...(name ? {} : {*/}
+            {/*            error: true,*/}
+            {/*            helperText: "Please enter your name. សូម​បញ្ចូល​ឈ្មោះ​របស់​អ្នក។"*/}
+            {/*        })} autoFocus/>*/}
+            {/*        <FormControl style={{margin: 10}} required id="select-age-container">*/}
+            {/*            <InputLabel>Age អាយុ</InputLabel>*/}
+            {/*            <Select*/}
+            {/*                labelId="select-age-label-id"*/}
+            {/*                id="select-age"*/}
+            {/*                value={ageRange}*/}
+            {/*                label="Age អាយុ "*/}
+            {/*                onChange={(event) => setAgeRange(event.target.value as AgeRange)}*/}
+            {/*            >*/}
+            {/*                {Object.values(AgeRange).map(ageRange => {*/}
+            {/*                    return <MenuItem value={ageRange}>{ageRange}</MenuItem>*/}
+            {/*                })}*/}
+            {/*            </Select>*/}
+            {/*        </FormControl>*/}
+            {/*        <TextField id="occupation-field" label="Occupation មុខរបរ" variant="outlined" value={occupation}*/}
+            {/*                   onChange={onOccupationChange} style={{margin: 10}}*/}
+            {/*                   required {...(occupation ? {} : {*/}
+            {/*            error: true,*/}
+            {/*            helperText: "Please enter your occupation. សូមបញ្ចូលមុខរបររបស់អ្នក។"*/}
+            {/*        })}/>*/}
+            {/*        <TextField id="nssf-field" label="NSSF ID" variant="outlined" value={nssfId}*/}
+            {/*                   onChange={onNssfIdChange} style={{margin: 10}}/>*/}
 
 
-                </div>
-            </form>
+            {/*        <Button type="submit">Submit ដាក់ស្នើ</Button>*/}
+
+
+            {/*    </div>*/}
+            {/*</form>*/}
         </div>
     )
 
