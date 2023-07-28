@@ -19,10 +19,10 @@ This is a prototype for software intended to be run on a healthcare machine targ
 ## What I've learnt (and what not to do next time...)
 I've learnt more about using React, and the TypeScript programming language through this project. It also got me to rapidly prototype apps/websites with greater speed than before (in which my participation in competitions helped)  
 I did this in a day, and I would say that there are some things I wished I could have done better, and will definitely take note of in the future:
-- `useState` in a mapping function
-To get toggle button groups to work, I resorted to using `useState` in a mapping function, which resulted in unintended consequences. As the app had multiple pages kept in track by states, when it moved to the next page, the app will crash if the array supplied was not equal in length to the previous stage. As such, I had to design questions such that each stage would have the same number of questions, which was sub-optimal.
-- Global variables instead of `useMemo`
-I only learnt about `useMemo` afterwards. I used global variables and (at some point) a tracking mechanism to make sure I don't update it when I wasn't supposed to, (the initialisation code kept running on each stage change)
+- `useState` in a mapping function  
+  To get toggle button groups to work, I resorted to using `useState` in a mapping function, which resulted in unintended consequences. As the app had multiple pages kept in track by states, when it moved to the next page, the app will crash if the array supplied was not equal in length to the previous stage. As such, I had to design questions such that each stage would have the same number of questions, which was sub-optimal.
+- Global variables instead of `useMemo`  
+  I only learnt about `useMemo` afterwards. I used global variables and (at some point) a tracking mechanism to make sure I don't update it when I wasn't supposed to, (the initialisation code kept running on each stage change)
 
 ## Conclusion
 All in all, this was a good learning experience, and I have become more confident in React, TS/JS and web technologies through this short prototype.
