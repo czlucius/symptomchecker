@@ -3,6 +3,8 @@
 A simple symptom checker and information counter software developed for [Temasek Foundation SCALE](https://temasekfoundation.org.sg/programmes-s/Specialists-Community-Action-and-Leadership-Exchange-SCALE-Programmes).  
 Prototype done in a day (hence code may not be very stable).
 
+I did this in April 2023.
+
 This is part of my Overseas Sustainable Innovation Project, in Phnom Penh and Takeo Province, Cambodia.
 
 Much thanks to Temasek Foundation for sponsoring my trip for the Sustainable Innovation project.
