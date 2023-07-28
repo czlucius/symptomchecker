@@ -66,50 +66,6 @@ const QuestionsPage = () => {
     }, {
         qns:
             [{
-                title: t("What colour is your vaginal discharge?"),
-                subtitle: undefined,
-                type: SurveyType.MultiChoice,
-                options: [t("Transparent 🪟"), t("White ⚪"), t("Yellow 🟡")],
-                trigger: [t("White ⚪"), t("Yellow 🟡")],
-                visual: "/vd.png",
-                num: 0
-            }, {
-                title: t("Is your vaginal discharge smelly/has a bad odour?"),
-                subtitle: undefined,
-                type: SurveyType.MultiChoice,
-                options: [t("Yes ✅"), t("No ❌")],
-                trigger: t("Yes ✅"),
-                num: 1
-            }, {
-                title: t("Do you feel pain in your tummy/lower abdomen?"),
-                subtitle: undefined,
-                type: SurveyType.MultiChoice,
-                options: [t("Yes ✅"), t("No ❌")],
-                trigger: t("Yes ✅"),
-                num: 2
-            }, {
-                title: t("Does your lower abdomen itch frequently?") ,
-                subtitle: undefined,
-                type: SurveyType.MultiChoice,
-                options: [t("Yes ✅"), t("No ❌")],
-                trigger: t("Yes ✅"),
-                num: 3
-            }, {
-                title: t("Do you find it difficult to urinate?") ,
-                subtitle: undefined,
-                type: SurveyType.MultiChoice,
-                options: [t("Yes ✅"), t("No ❌")],
-                trigger: t("Yes ✅"),
-                num: 4
-            }],
-        title: t("Vaginal infection"),
-        id: 1,
-        disease: "vaginal infection",
-        machineNo: 2,
-        diseaseEnum: Diseases.Vaginal_Infection
-    }, {
-        qns:
-            [{
                 title: t("Do you smoke?"),
                 subtitle: t("Smoking may increase your risk of hypertension."),
                 type: SurveyType.MultiChoice,
