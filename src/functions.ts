@@ -7,13 +7,11 @@ export class UserInfo {
 export enum Diseases {
     Diabetes = "Diabetes",
     Hypertension = "Hypertension",
-    Vaginal_Infection = "Vaginal infection",
 }
 
 export const diseaseToMachineMap = {
     "Diabetes": "1",
     "Hypertension": "1",
-    "Vaginal infection": "1"
 }
 
 export function getUserResult(id): UserInfo {
@@ -30,8 +28,6 @@ export function t1(eng: string) {
             break
         case "hypertension":
             return "ជំងឺលើសឈាម"
-        case "vaginal infection":
-            return "ជំងឺហូរទឹករំអិលទ្វារមាស"
         default:
             return eng
     }

@@ -42,7 +42,7 @@ const Startpage = () => {
                     </DialogTitle>
                     <DialogContent>
                         {
-                            JSON.parse(window.localStorage.getItem(id) ?? "[\"Diabetes\",\"Vaginal infection\",\"Hypertension\"]").map(disease => {
+                            JSON.parse(window.localStorage.getItem(id) ?? "[\"Diabetes\",\"Hypertension\"]").map(disease => {
                                 return <Card style={{margin:10}}>
                                     <CardContent>
                                         {i18n.language === "en" ? `You are at risk of ${disease}.

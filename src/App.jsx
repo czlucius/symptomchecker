@@ -36,7 +36,6 @@ i18n
                     "Next": "បន្ទាប់",
                     "Do you feel pain in your tummy/lower abdomen?": "តើ​អ្នក​មាន​អារម្មណ៍​ថា​ឈឺ​ក្នុង​ពោះ​ឬ​ពោះ​របស់​អ្នក​ទេ?",
                     "Does your lower abdomen itch frequently?": "តើពោះខាងក្រោមរបស់អ្នករមាស់ញឹកញាប់ទេ?",
-                    "Vaginal infection": "ជំងឺហូរទឹករំអិលទ្វារមាស",
                     "Do you smoke?": "តើអ្នកជក់បារីញឹកញាប់ទេ?",
                     "Smoking may increase your risk of hypertension.": "ការជក់បារីអាចបង្កើនហានិភ័យនៃជំងឺលើសឈាម។",
                     "What is your BMI?": "តើ BMI របស់អ្នកគឺជាអ្វី?",
